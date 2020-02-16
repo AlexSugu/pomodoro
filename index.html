@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>POMODORO AlexSugu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/function.js"></script>
+</head>
+<body>
+    <div id="menuPomo" class="pomodoro">
+        
+        <p onclick="menu(this)" id="menu">Option <img  onclick="openMenu(this)" src="/image/1119298.png" alt=""></p>
+        <br>
+        <p id="TextWork">Work</p>
+        <div class="work">
+            <p id="MinusWork">-</p>
+            <p id="TimeWork">25 : 0</p>
+            <p id="PlusWork">+</p>
+        </div>
+        
+        <br>
+        <p id="TextReclear">Recration</p>
+        <div class="Recration">
+            <p id="MinusReclear">-</p>
+            <p id="TimeReclear">5 : 0</p>
+             <p id="PlusReclear">+</p>
+        </div>
+
+        <button onclick="start()" id="start">Start</button>
+        <button id="sbros">Restart</button>
+        
+        <input type="text" name="" id="TextMessage">
+        <br>
+        <div class="option">
+            <p>Уведомление</p>
+            <input type="checkbox" name="" id="music">
+            <label for="music">Вкл</label>
+            <br>
+            <br>
+            <p>Часы</p>
+            <input type="checkbox" name="" id="clock">
+            <label for="clock">Вкл</label>
+        </div>
+        
+    </div>
+
+    <div class="mainPo">
+        <h3>WORK</h3>
+        <h1>25 : 00</h1>
+        <button>Start</button>
+    </div>
+    
+</body>
+</html>
