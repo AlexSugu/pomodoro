@@ -1,56 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>POMODORO AlexSugu</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/function.js"></script>
+    <title>Pomodoro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="icon/timer.ico" type="image/ico">
 </head>
+
 <body>
-    <div id="menuPomo" class="pomodoro">
-        
-        <p onclick="menu(this)" id="menu">Option <img  onclick="openMenu(this)" src="/image/1119298.png" alt=""></p>
+    <div id="app">
+        <h1>POMODORO</h1>
         <br>
-        <p id="TextWork">Work</p>
-        <div class="work">
-            <p id="MinusWork">-</p>
-            <p id="TimeWork">25 : 0</p>
-            <p id="PlusWork">+</p>
-        </div>
-        
-        <br>
-        <p id="TextReclear">Recration</p>
-        <div class="Recration">
-            <p id="MinusReclear">-</p>
-            <p id="TimeReclear">5 : 0</p>
-             <p id="PlusReclear">+</p>
-        </div>
-
-        <button onclick="start()" id="start">Start</button>
-        <button id="sbros">Restart</button>
-        
-        <input type="text" name="" id="TextMessage">
-        <br>
-        <div class="option">
-            <p>Уведомление</p>
-            <input type="checkbox" name="" id="music">
-            <label for="music">Вкл</label>
+        <h2 id="text">WORK</h2>
+        <h2 id="time">0 : 0</h2>
+        <hr>
+        <button id="btn" onclick="StartStopTime()">Старт</button>
+        <button id="btn" onclick="menuOpen()">Настройки</button>
+        <div class="menu">
+            <div class="back">
+                <p>Настройки</p>
+                <a onclick="menuClose()">&times</a>
+            </div>
             <br>
-            <br>
-            <p>Часы</p>
-            <input type="checkbox" name="" id="clock">
-            <label for="clock">Вкл</label>
+            <div class="menu-div">
+                <div class="menu-item">
+                    <h3>Таймер</h3>
+                    <br>
+                    <h4>Work</h4>
+                    <div>
+                        <button onclick="Mmin()">-</button>
+                        <p id="TimeW">25</p>
+                        <button onclick="Mplu()">+</button>
+                    </div>
+                    <br>
+                    <h4>Lunch</h4>
+                    <div>
+                        <button onclick="Lmin()">-</button>
+                        <p id="TimeL">5</p>
+                        <button onclick="Lplu()">+</button>
+                    </div>
+                    <button id="btn" onclick="Sbros()">Сброс</button>
+                    <br>
+                </div>
+                <div class="menu-item">
+                    <h3>Уведомление</h3>
+                    <br>
+                    <p>Трек</p>
+                    <form>
+                        <select id='select'>
+                        </select>
+                    </form>
+                    
+                    <br>
+                    <p>Громкость</p>
+                    <input onchange="ch()" step="1" min="0" max="100" type="range" name="" id="volue">
+                </div>
+            </div>
         </div>
-        
     </div>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script>
+    var t = document.getElementById("time");
+    var btn = document.getElementById("btn");
+    var txt = document.getElementById("text");
+    var tw = document.getElementById("TimeW");
+    var tl = document.getElementById("TimeL");
+    var v = document.getElementById("volue");
+    var DefaulM = 25,
+        DefaulLM = 5;
+    var m = DefaulM,
+        lm = DefaulLM,
+        s = 0;
+    var start = false;
+    var linche = false;
+    var work = true;
 
-    <div class="mainPo">
-        <h3>WORK</h3>
-        <h1>25 : 00</h1>
-        <button>Start</button>
-    </div>
-    
+    var select = document.getElementById("select");
+    var a = new Audio();
+    var listMusic = new Map(
+        [
+            ["edomleniyah",
+                "audio/edomleniyah.mp3"
+            ],
+            ["fantasy",
+                "audio/fantasy.mp3"
+            ],
+            ["medium",
+                "audio/medium.mp3"
+            ],
+            ["sound",
+                "audio/sound.mp3"
+            ],
+            ["telefon",
+                "audio/telefon.mp3"
+            ],
+            ["vkontakte",
+                "audio/vkontakte.mp3"
+            ]
+        ]
+    );
+    for(let arr of listMusic.entries()){
+        let newOp =  new Option(arr[0], arr[1]);
+        select.append(newOp);
+    }
+
+    txt.innerHTML = "WORK";
+    tw.innerHTML = m;
+    tl.innerHTML = lm;
+    t.innerHTML = `${m} : ${s}`;
+    tl.innerHTML = lm;
+    tw.innerHTML = m;
+    menuClose();
+    v.value = 30;
+
+
+
+
+    function StartStopTime() {
+        start = !start;
+        if (start == false) {
+            btn.innerHTML = "Старт";
+            document.title = "Pomodoro";
+        } else {
+            btn.innerHTML = "Стоп";
+        }
+    }
+
+    function Sbros() {
+        m = tw.innerHTML = DefaulM = 25;
+        lm = tl.innerHTML = DefaulLM = 5;
+        s = 0;
+        t.innerHTML = `${m} : ${s}`;
+        document.title = "Pomodoro";
+        btn.innerHTML = "Старт";
+        start = false;
+    }
+
+    function Mmin() {
+        if ((m > 1) && (m < 60)) {
+            m--;
+            DefaulM--;
+            s = 0;
+        }
+        tw.innerHTML = m;
+        if (work) t.innerHTML = `${m} : ${s}`;
+    }
+
+    function Mplu() {
+        if ((m >= 0) && (m < 60)) {
+            m++;
+            DefaulM++;
+            s = 0;
+        }
+        tw.innerHTML = m;
+        if (work) t.innerHTML = `${m} : ${s}`;
+    }
+
+    function Lmin() {
+        if ((lm > 1) && (lm < 60)) {
+            lm--;
+            DefaulLM--;
+            s = 0;
+        }
+        tl.innerHTML = lm;
+        if (linche) t.innerHTML = `${lm} : ${s}`;
+    }
+
+    function Lplu() {
+        if ((lm >= 0) && (lm < 60)) {
+            lm++;
+            DefaulLM++;
+            s = 0;
+        }
+        tl.innerHTML = lm;
+        if (linche) t.innerHTML = `${lm} : ${s}`;
+    }
+
+    function menuOpen() {
+        start = false;
+        btn.innerHTML = "Старт";
+        document.title = "Pomodoro";
+        $(".menu").show();
+
+    }
+
+    function menuClose() {
+        $(".menu").hide();
+    }
+
+
+    setInterval(() => {
+        if (start) {
+            if (work) {
+                if ((m == 0) && (s == 0)) {
+                    linche = true;
+                    work = false;
+                    lm = DefaulLM;
+                    s = 0;
+                    ch();
+                } else {
+                    if (s == 0) {
+                        s = 60;
+                        m--;
+                    }
+                    s--;
+                    txt.innerHTML = "WORK";
+                    document.title = `WORK ${m} : ${s}`;
+                    t.innerHTML = `${m} : ${s}`;
+                }
+            }
+            if (linche) {
+                if ((lm == 0) && (s == 0)) {
+                    linche = false;
+                    work = true;
+                    m = DefaulM;
+                    s = 0;
+                    ch();
+                } else {
+                    if (s == 0) {
+                        s = 60;
+                        lm--;
+                    }
+                    s--;
+                    txt.innerHTML = "LANCH";
+                    document.title = `LANCH ${lm} : ${s}`;
+                    t.innerHTML = `${lm} : ${s}`;
+                }
+            }
+        }
+    }, 1000)
+
+
+    $("#select").change(() => {
+        ch();
+    });
+
+    function ch() {
+        a.src = select.value;
+        a.volume = v.value / 100;
+        a.play();
+    }
+    </script>
 </body>
+
 </html>
