@@ -10,13 +10,16 @@
 
 <body>
     <div id="app">
-        <h1>POMODORO</h1>
-        <br>
-        <h2 id="text">WORK</h2>
-        <h2 id="time">0 : 0</h2>
-        <hr>
-        <button id="btn" onclick="StartStopTime()">Старт</button>
-        <button id="btn" onclick="menuOpen()">Настройки</button>
+        <div class="app-body">
+            <h1>POMODORO</h1>
+            <br>
+            <h2 id="text">WORK</h2>
+            <h2 id="time">0 : 0</h2>
+            <hr>
+            <button id="btn" onclick="StartStopTime()">Старт</button>
+            <button id="btn" onclick="menuOpen()">Настройки</button>
+        </div>
+        
         <div class="menu">
             <div class="back">
                 <p>Настройки</p>
@@ -182,11 +185,12 @@
         btn.innerHTML = "Старт";
         document.title = "Pomodoro";
         $(".menu").show();
-
+        $(".app-body").hide();
     }
 
     function menuClose() {
         $(".menu").hide();
+        $(".app-body").show();
     }
 
 

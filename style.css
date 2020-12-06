@@ -22,6 +22,12 @@ hr {
     color: white;
     font-size: 30px;
 }
+.app-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 #app h2 {
     margin-bottom: 0;
